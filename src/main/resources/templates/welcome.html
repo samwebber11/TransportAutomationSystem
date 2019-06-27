@@ -12,6 +12,19 @@
 <body>
 <h1 class = "heading"> Welcome to Automation Transportation System </h1>
 <br>
+
+
+<h4>If You are a driver. Please Click this link below</h4>
+<form th:action="@{/driver/login}" method = "get">
+	<button class="btn btn-md btn-warning btn-block" type="Submit">Driver Entry</button>
+</form>
+<br>
+
+<h4>Want to book a ride? You are at right place. Please click the link below to enjoy the application</h4>
+<form th:action="@{/homepage}" method = "get">
+	<button class="btn btn-md btn-warning btn-block" type="Submit">Driver Entry</button>
+</form>
+
 <h3>If you Want to start a new journey!!!</h3>
 <form th:action="@{/registration}" method="get">
     <button class="btn btn-md btn-warning btn-block" type="Submit">Registration Page</button>
