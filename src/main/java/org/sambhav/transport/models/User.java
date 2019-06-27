@@ -58,10 +58,10 @@ public class User implements Serializable {
 	private String mobileNumber;
 	
 	@Column(name = "passwd")
-	@Size(min = 4, max = 10)
+	@Size(min = 4, max = 10 , message = "Your Password must be between 4 and 10 characters")
 	private String passwd;
 	
-	@Size(min = 4,max = 10)
+	@Size(min = 4,max = 10, message = "Your password must match!!!")
 	@Column(name = "confirm_passwd")
 	@Transient
 	private String confirmPasswd;
