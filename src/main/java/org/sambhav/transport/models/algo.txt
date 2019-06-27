@@ -1,0 +1,31 @@
+// Naive Solution to the problem
+
+
+// Assumptions are :-
+
+// Model is saving the closing location of the driver 
+// Model is also saving the status of the driver 
+// We can fetch the distance of each driver location to the user location with the help of google map api
+// also google map can give the location using the pin point and we need to fetch the starting or current location of the driver
+// 
+
+// Extract all the drivers that are available and are sitting ideal and add them to a list of drivers that can take a active passenger order
+// Extract the drivers that want to travel only in the intra city if the order is intra city and check if inter to inter and modify the list accordingily.
+// Now check for all the drivers who are busy in a ride and check by what time they will be available to finish their work
+// Now check for all the drivers whose closing or drop location is the same city as that of user's location
+// Now check for distance of closing location of the drivers from the starting point and calculate their time taken.
+// if time taken to reach to the user location is calculated to be more than user's scheduled time then again reject those drivers
+// Now we will be left with few drivers and then add all the drivers to a list of available drivers and then sort them according to the distance or time whatever be the choice more
+// preferred to sort them on the basis of time because traffic can be a big factor and also sometimes environment factors
+// Now send notifications to all the drivers that have been in the list and yes also keep a bar of 10-15 minutes to be reached to location
+// And send notifications to those drivers only those have distance or reaching time close to scheduled time
+// Now assign that ride to the driver who checks the notifications and accepts that and now check if there is more than one 
+// driver who accepts the notifications and assign order to that driver that accepts order first and also
+// if the accepting time is also same and then give order to the one having shortest time
+// and also checks if shortest time is also same then assign order randomly on the basis of Math.random
+// Keep a time of two minutes of they will be going to accept the order and also in case they don't accept orders penalised them with some fees or keep a warning count
+// On reaching a threshold warning counts then penalised them 
+
+
+
+
