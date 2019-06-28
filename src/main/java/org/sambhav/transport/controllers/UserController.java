@@ -43,6 +43,14 @@ public class UserController {
 		return view;
 	}
 	
+	@GetMapping("/homepage")
+	public ModelAndView homepage()
+	{
+		ModelAndView view = new ModelAndView();
+		view.setViewName("homepage");
+		return view;
+	}
+	
 	@PostMapping("/registration")
 	public ModelAndView saveUser(@Valid User user,BindingResult bindingResult)
 	{
@@ -58,8 +66,7 @@ public class UserController {
 	        } else {
 	            userService.saveUser(userExists);
 	            modelAndView.addObject("successMessage", "User has been registered successfully");
-	            modelAndView.addObject("user", new User());
-	            modelAndView.setViewName("registration");
+	            modelAndView.setViewName("welcome");
 
 	        }
 	        return modelAndView;
