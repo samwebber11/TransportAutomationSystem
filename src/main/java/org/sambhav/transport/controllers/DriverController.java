@@ -22,4 +22,12 @@ public class DriverController {
 		view.setViewName("driverLogin");
 		return view;
 	}
+	
+	@GetMapping("/confirm")
+	public ModelAndView transportConfirm()
+	{
+		ModelAndView view = new ModelAndView();
+		view.setViewName("confirm");
+		return view;
+	}
 }

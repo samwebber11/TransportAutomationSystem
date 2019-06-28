@@ -1,9 +1,9 @@
 package org.sambhav.transport.repos;
 
 import org.sambhav.transport.models.User;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepo extends CrudRepository<User,Integer> {
+public interface UserRepo extends JpaRepository<User,Integer> {
 
 	public User findByEmail(String email);
 }

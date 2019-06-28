@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +20,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @Table(name = "User_Records")
 public class User implements Serializable {
@@ -28,72 +31,79 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
-	@NotNull
 	private Integer id;
 	
 	@Column(name = "first_name")
-	@Size(max = 15)
+	@Length(max = 15,message="*Your first name is not correct")
 	@NotNull
 	private String firstName;
 	
 	@Column(name = "last_name")
-	@Size(max = 15)
+	@Length(max = 15,message="*Your Last name is not correct")
 	@NotNull
 	private String lastName;
 	
-	@NotNull
+	@NotNull(message="*Please provide a valid email")
 	@Column(name = "user_name")
-	@Size(min=6,max = 15)
+	@Length(min=6,max = 15)
 	private String userName;
 	
 	
-	@Email(message="Please enter a valid email")
+	@Email(message="*Please enter a valid email")
 	@Column(name = "email",unique = true)
 	@NotNull
 	private String email;
 	
 	@Column(name = "mobileNumber")
 	@NotNull
-	@Size(min = 10, max = 10)
+	@Length(min = 10, max = 10,message="*Please enter a valid phone number")
 	private String mobileNumber;
 	
 	@Column(name = "passwd")
-	@Size(min = 4, max = 10 , message = "Your Password must be between 4 and 10 characters")
+	@Length(min = 4,message = "*Your Password must be between 4 and 10 characters")
 	private String passwd;
 	
-	@Size(min = 4,max = 10, message = "Your password must match!!!")
+	@Length(min = 4,message = "*Your password must match!!!")
 	@Column(name = "confirm_passwd")
 	@Transient
 	private String confirmPasswd;
 	
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
 	private Rides ride;
 
 	@ManyToMany
 	@JoinTable(name = "role_user_matching", joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 	
-	//	Constructors
-	public User( @Size(max = 15) @NotNull String firstName, @Size(max = 15) @NotNull String lastName,
-		@NotNull @Size(min = 6, max = 15) String userName,
-		@Email(message = "Please enter a valid email") @NotNull String email,
-		@NotNull @Size(min = 10, max = 10) String mobileNumber, @Size(min = 4, max = 10) String passwd,
-		@Size(min = 4, max = 10) String confirmPasswd,Rides ride,Set<Role> roles) {
-	this.firstName = firstName;
-	this.lastName = lastName;
-	this.userName = userName;
-	this.email = email;
-	this.mobileNumber = mobileNumber;
-	this.passwd = passwd;
-	this.confirmPasswd = confirmPasswd;
-	this.ride = ride;
-	this.roles = roles;
+	
+//	 Definition of constructors is defined here
+
+	public User(Integer id, @Size(max = 15, message = "*Your first name is not correct") @NotNull String firstName,
+			@Size(max = 15, message = "*Your Last name is not correct") @NotNull String lastName,
+			@NotNull(message = "*Please provide a valid email") @Size(min = 6, max = 15) String userName,
+			@Email(message = "*Please enter a valid email") @NotNull String email,
+			@NotNull @Size(min = 10, max = 10, message = "*Please enter a valid phone number") String mobileNumber,
+			@Size(min = 4, max = 10, message = "*Your Password must be between 4 and 10 characters") String passwd,
+			@Size(min = 4, max = 10, message = "*Your password must match!!!") String confirmPasswd, Rides ride,
+			Set<Role> roles) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.email = email;
+		this.mobileNumber = mobileNumber;
+		this.passwd = passwd;
+		this.confirmPasswd = confirmPasswd;
+		this.ride = ride;
+		this.roles = roles;
 	}
 
 	public User()
 	{
 		
 	}
+	
+//	Below is the list of getters and setters 
 	
 	public Rides getRide() {
 		return ride;

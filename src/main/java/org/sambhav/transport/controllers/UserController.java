@@ -43,6 +43,14 @@ public class UserController {
 		return view;
 	}
 	
+	@GetMapping("/booking")
+	public ModelAndView booking()
+	{
+		ModelAndView view = new ModelAndView();
+		view.setViewName("booking");
+		return view;
+	}
+	
 	@GetMapping("/homepage")
 	public ModelAndView homepage()
 	{
@@ -54,6 +62,7 @@ public class UserController {
 	@PostMapping("/registration")
 	public ModelAndView saveUser(@Valid User user,BindingResult bindingResult)
 	{
+		System.out.println("Hit here");
 		 ModelAndView modelAndView = new ModelAndView();
 	        User userExists = userService.findByEmail(user.getEmail());
 	        if (userExists != null) {
@@ -62,11 +71,12 @@ public class UserController {
 	                            "You are already a member.Please kindly login!");
 	        }
 	        if (bindingResult.hasErrors()) {
-	            modelAndView.setViewName("welcome");
+	        	System.out.println(bindingResult.getAllErrors());
+	            modelAndView.setViewName("homepage");
 	        } else {
-	            userService.saveUser(userExists);
+	            userService.saveUser(user);
 	            modelAndView.addObject("successMessage", "User has been registered successfully");
-	            modelAndView.setViewName("welcome");
+	            modelAndView.setViewName("registration");
 
 	        }
 	        return modelAndView;
