@@ -22,8 +22,9 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
+
 @Entity
-@Table(name = "User_Records")
+@Table(name = "user")
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 8234070264463694452L;
@@ -44,7 +45,7 @@ public class User implements Serializable {
 	private String lastName;
 	
 	@NotNull(message="*Please provide a valid email")
-	@Column(name = "user_name")
+	@Column(name = "name")
 	@Length(min=6,max = 15)
 	private String userName;
 	
@@ -59,45 +60,48 @@ public class User implements Serializable {
 	@Length(min = 10, max = 10,message="*Please enter a valid phone number")
 	private String mobileNumber;
 	
-	@Column(name = "passwd")
+	@Column(name = "password")
 	@Length(min = 4,message = "*Your Password must be between 4 and 10 characters")
-	private String passwd;
+	private String password;
 	
 	@Length(min = 4,message = "*Your password must match!!!")
-	@Column(name = "confirm_passwd")
+	@Column(name = "confirm_password")
 	@Transient
-	private String confirmPasswd;
+	private String confirmPassword;
 	
 	@OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
 	private Rides ride;
 
 	@ManyToMany
-	@JoinTable(name = "role_user_matching", joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "role_id"))
+	@JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 	
+	@Column(name="active")
+	private int active;
 	
 //	 Definition of constructors is defined here
 
-	public User(Integer id, @Size(max = 15, message = "*Your first name is not correct") @NotNull String firstName,
-			@Size(max = 15, message = "*Your Last name is not correct") @NotNull String lastName,
-			@NotNull(message = "*Please provide a valid email") @Size(min = 6, max = 15) String userName,
+	public User(Integer id, @Length(max = 15, message = "*Your first name is not correct") @NotNull String firstName,
+			@Length(max = 15, message = "*Your Last name is not correct") @NotNull String lastName,
+			@NotNull(message = "*Please provide a valid email") @Length(min = 6, max = 15) String userName,
 			@Email(message = "*Please enter a valid email") @NotNull String email,
-			@NotNull @Size(min = 10, max = 10, message = "*Please enter a valid phone number") String mobileNumber,
-			@Size(min = 4, max = 10, message = "*Your Password must be between 4 and 10 characters") String passwd,
-			@Size(min = 4, max = 10, message = "*Your password must match!!!") String confirmPasswd, Rides ride,
-			Set<Role> roles) {
+			@NotNull @Length(min = 10, max = 10, message = "*Please enter a valid phone number") String mobileNumber,
+			@Length(min = 4, message = "*Your Password must be between 4 and 10 characters") String password,
+			@Length(min = 4, message = "*Your password must match!!!") String confirmPassword, Rides ride,
+			Set<Role> roles, int active) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.email = email;
 		this.mobileNumber = mobileNumber;
-		this.passwd = passwd;
-		this.confirmPasswd = confirmPasswd;
+		this.password = password;
+		this.confirmPassword = confirmPassword;
 		this.ride = ride;
 		this.roles = roles;
+		this.active = active;
 	}
-
+	
 	public User()
 	{
 		
@@ -116,9 +120,18 @@ public class User implements Serializable {
 	public String getUserName() {
 		return userName;
 	}
-
+	
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	
+	public int getActive() {
+		return active;
+	}
+	
+	public void setActive(int active)
+	{
+		this.active = active;
 	}
 	
 	public String getFirstName() {
@@ -151,17 +164,17 @@ public class User implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getPasswd() {
-		return passwd;
+	public String getPassword() {
+		return password;
 	}
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	public String getConfirmPasswd() {
-		return confirmPasswd;
+	public String getConfirmPassword() {
+		return confirmPassword;
 	}
-	public void setConfirmPasswd(String confirmPasswd) {
-		this.confirmPasswd = confirmPasswd;
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public Set<Role> getRoles() {

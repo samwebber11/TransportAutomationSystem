@@ -26,9 +26,9 @@ public class Role implements Serializable{
     private int id;
 	
 	@NotNull
-	@Column(name = "role_name")
+	@Column(name = "role")
 	@Size(max = 15)
-    private String name;
+    private String role;
 
 	@ManyToMany(mappedBy = "roles")
 	private Set<User> user;
@@ -36,8 +36,8 @@ public class Role implements Serializable{
 	@ManyToMany(mappedBy = "roles")
 	private Set<TransportDriver> driver;
 
-	public Role(@NotNull @Size(max = 15) String name, Set<User> user, Set<TransportDriver> driver) {
-		this.name = name;
+	public Role(@NotNull @Size(max = 15) String role, Set<User> user, Set<TransportDriver> driver) {
+		this.role = role;
 		this.user = user;
 		this.driver = driver;
 	}
@@ -69,12 +69,12 @@ public class Role implements Serializable{
 		this.driver = driver;
 	}
 
-	public String getName() {
-        return name;
+	public String getRole() {
+        return role;
     }
 
-	public void setName(String name) {
-        this.name = name;
+	public void setRole(String name) {
+        this.role = name;
     }
 
 }

@@ -63,18 +63,18 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-9">
-                        <input type="password" th:field="*{passwd}"
+                        <input type="password" th:field="*{password}"
                                placeholder="Password" class="form-control"/> <label
-                            th:if="${#fields.hasErrors('passwd')}" th:errors="*{passwd}"
+                            th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
                             class="validation-message"></label>
                     </div>
                 </div> 
 				
 				<div class="form-group">
                     <div class="col-sm-9">
-                        <input type="password" th:field="*{confirmPasswd}"
+                        <input type="password" th:field="*{confirmPassword}"
                                placeholder="Confirm Password" class="form-control"/> <label
-                            th:if="${#fields.hasErrors('confirmPasswd')}" th:errors="*{confirmPasswd}"
+                            th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
                             class="validation-message"></label>
                     </div>
                 </div> 

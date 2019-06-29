@@ -27,16 +27,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.queries.users-query}")
     private String usersQuery;
-//
-//    @Value("${spring.queries.roles-query}")
-//    private String rolesQuery;
+    
+    @Value("${spring.queries.roles-query}")
+    private String rolesQuery;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
+    	System.out.println(usersQuery);
         auth.
                 jdbcAuthentication()
                 .usersByUsernameQuery(usersQuery)
+                .authoritiesByUsernameQuery(rolesQuery)
                 .dataSource(dataSource)
                 .passwordEncoder(bCryptPasswordEncoder);
     }
@@ -51,13 +53,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		.antMatchers("/login").permitAll()
     		.antMatchers("/homepage").permitAll()
     		.antMatchers("/driver/**").permitAll()
-    		.antMatchers("/admin/**").hasAuthority("ADMIN")
     		.anyRequest()
     		.authenticated().and().csrf().disable().formLogin()
     		.loginPage("/login").failureUrl("/login?error=true")
     		.defaultSuccessUrl("/booking")
-    		.usernameParameter("userName")
-    		.passwordParameter("passwd")
+    		.usernameParameter("email")
+    		.passwordParameter("password")
     		.and()
     		.logout()
     		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
