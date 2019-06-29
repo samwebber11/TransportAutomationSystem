@@ -30,8 +30,9 @@ public class UserService{
 
 	public void saveUser(User user)
 	{
-		user.setPasswd(bCryptPasswordEncoder.encode(user.getPasswd()));
-		Role roles = roleRepo.findByName("USER");
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setActive(1);
+		Role roles = roleRepo.findByRole("USER");
 		user.setRoles(new HashSet<>(Arrays.asList(roles)));
 		userRepo.save(user);
 	}
