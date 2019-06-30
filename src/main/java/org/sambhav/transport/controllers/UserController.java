@@ -3,6 +3,7 @@ package org.sambhav.transport.controllers;
 import javax.validation.Valid;
 
 import org.sambhav.transport.models.User;
+import org.sambhav.transport.services.SecurityService;
 import org.sambhav.transport.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private SecurityService securityService;
+	
 	@GetMapping("/")
 	public ModelAndView welcome()
 	{
@@ -29,7 +33,15 @@ public class UserController {
 	public ModelAndView login()
 	{
 		ModelAndView view = new ModelAndView();
-		view.setViewName("login");
+		if(securityService.findLoggedInUsername()!=null)
+		{
+			view.setViewName("booking");
+		}
+		else
+		{
+			view.setViewName("login");
+		}
+//		view.setViewName("login");
 		return view;
 	}
 	
@@ -48,6 +60,22 @@ public class UserController {
 	{
 		ModelAndView view = new ModelAndView();
 		view.setViewName("booking");
+		return view;
+	}
+	
+	@GetMapping("/*")
+	public ModelAndView anyPage()
+	{
+		ModelAndView view = new ModelAndView();
+		if(securityService.findLoggedInUsername()!=null)
+		{
+			view.setViewName("booking");
+		}
+		else
+		{
+			view.setViewName("homepage");
+		}
+		
 		return view;
 	}
 	
