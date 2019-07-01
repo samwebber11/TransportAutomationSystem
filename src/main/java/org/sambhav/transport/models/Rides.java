@@ -47,18 +47,22 @@ public class Rides implements Serializable{
 	@Column(name = "end_trip")
 	private String endLocation;
 	
+	@Column(name="total_charge")
+	private Double payment;
 	
-	public Rides(User user, TransportDriver driver, Date startTime, Date endTime,
-			String startLocation, String endLocation) {
-		
+
+	public Rides(@NotNull Integer id, User user, TransportDriver driver, Date startTime, Date endTime,
+			@NotNull(message = "*Your location is not valid") String startLocation, String endLocation,Double payment) {
+		this.id = id;
 		this.user = user;
+		this.payment = payment;
 		this.driver = driver;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
 	}
-	
+
 	public Rides()
 	{
 		
@@ -118,5 +122,14 @@ public class Rides implements Serializable{
 
 	public void setEndLocation(String endLocation) {
 		this.endLocation = endLocation;
+	}
+	
+	public Double getPayment() {
+		return this.payment;
+	}
+	
+	public void setPayment(Double payment)
+	{
+		this.payment = payment;
 	}
 }
