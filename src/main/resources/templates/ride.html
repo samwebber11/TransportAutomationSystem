@@ -10,42 +10,43 @@
 <body>
 <h1 class = "heading"> Welcome to Automated Transportation System. Your Journey Our Responsibility.</h1>
 <br>
-<h3>Booking Page</h3>
+<h3 class = "heading">Booking Page</h3>
 
 <br>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <form action="#" th:action="@{/ride}"
-                  th:object="${ride}" method="post" class="form-horizontal"
-                  role="form">
-                <h2>Welcome To Your Application! Enter Your Start And Drop Location</h2>
-                <div class="form-group">
-                    <div class="col-sm-9">
-                        <input type="text" th:field="*{startLocation}" placeholder="Start Location"
-                               class="form-control"/>
-                    </div>
-                </div>
+<h2 class="heading">Welcome To Your Application! Enter Your Start And Drop Location</h2>
+<br><br>
+
+                <form class="form-inline" action="/ride" method="post">
+                
                 
                 <div class="form-group">
-                    <div class="col-sm-9">
-                        <input type="text" th:field="*{endLocation}" placeholder="End Location"
-                               class="form-control"/>
-                    </div>
+                	<div class="col-sm-9">
+                		<input class="form-control mr-sm-2" 
+                			   type="text"  id="startLocation"
+                			   name="startLocation" value=""  
+                			   placeholder="startLocation" />	
+                	</div>
                 </div>
+                <br><br>
                 <div class="form-group">
-                    <div class="col-sm-9">
-                        <button type="submit" class="btn btn-primary btn-block">Confirm Your Location</button>
-                    </div>
+                	<div class="col-sm-9">
+                		<input class="form-control mr-sm-2" 
+                			   type="text"  id="endLocation"
+                			   name="endLocation" value=""  
+                			   placeholder="endLocation" />	
+                	</div>
                 </div>
-
-                <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
-
-            </form>
-        </div>
-    </div>
-</div>
-
+                <br><br>
+      		    <button class="btn btn-success" type="Submit" value="Submit">Confirm The Location</button>
+      		    
+      		    
+      		    <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
+      		    <h2><span class="text-success" th:utext="${distance}"></span></h2>
+      		    <h2><span class="text-success" th:utext="${timeToTravel}"></span></h2>
+      		    
+      		    
+            </form> 
+			
 <br>
 <form th:action="@{/logout}" method="get">
         <button class="btn btn-md btn-danger btn-block" name="registration"

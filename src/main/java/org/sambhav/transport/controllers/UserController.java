@@ -1,9 +1,10 @@
 package org.sambhav.transport.controllers;
 
-import java.io.IOException;
-
 import javax.validation.Valid;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.sambhav.transport.customs.Distance;
 import org.sambhav.transport.models.Rides;
 import org.sambhav.transport.models.User;
@@ -33,45 +34,15 @@ public class UserController {
 		this.distance = distance;
 	}
 	
-//	 @GetMapping("/")
-//	   public ModelAndView Api(String source,String destination) {
-//	           try {
-//	                 //method of DistanceTime Class
-//	        	   source = "Jalandhar";
-//	        	   destination = "New Delhi";
-//	               String response=distance.calculate(source,destination);
-//	               JSONParser parser = new JSONParser();
-//	               try {
-//
-//	                Object obj = parser.parse(response);
-//	                JSONObject jsonobj=(JSONObject)obj;
-//
-//	                JSONArray dist=(JSONArray)jsonobj.get("rows");
-//	                JSONObject obj2 = (JSONObject)dist.get(0);
-//	                JSONArray disting=(JSONArray)obj2.get("elements");
-//	                JSONObject obj3 = (JSONObject)disting.get(0);
-//	                JSONObject obj4=(JSONObject)obj3.get("distance");
-//	                JSONObject obj5=(JSONObject)obj3.get("duration");
-//	                System.out.println(obj4.get("text"));
-//	                System.out.println(obj5.get("text"));
-//
-//	           }
-//	       catch(Exception e) {
-//	           e.printStackTrace();
-//	       }
-//
-//	           System.out.println(response);
-//	           }
-//
-//	           catch(Exception e) {
-//	               System.out.println("Exception Occurred");
-//	           }
-//	           
-//	           
-//
-//	           return new ModelAndView("home");
-//
-//	       }  
+	@GetMapping("/ride")
+	public ModelAndView takeARide()
+	{
+		ModelAndView view = new ModelAndView();
+		Rides ride = new Rides();
+		view.addObject(ride);
+		view.setViewName("ride");
+		return view;
+	}
 	
 	@GetMapping("/")
 	public ModelAndView welcome()
@@ -93,7 +64,6 @@ public class UserController {
 		{
 			view.setViewName("login");
 		}
-//		view.setViewName("login");
 		return view;
 	}
 	
@@ -131,15 +101,7 @@ public class UserController {
 		return view;
 	}
 	
-	@GetMapping("/ride")
-	public ModelAndView takeARide()
-	{
-		ModelAndView view = new ModelAndView();
-		Rides ride = new Rides();
-		view.addObject(ride);
-		view.setViewName("ride");
-		return view;
-	}
+	
 	
 	@GetMapping("/homepage")
 	public ModelAndView homepage()
@@ -172,19 +134,50 @@ public class UserController {
 	        return modelAndView;
 	}
 
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Post Method For a Ride
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
 	@PostMapping("/ride")
 	public ModelAndView checkDistance(Rides ride)
 	{
 		ModelAndView view = new ModelAndView();
-		String source = ride.getStartLocation();
-		String destination = ride.getEndLocation();
-		try {
-			String response = distance.calculate(source, destination);
-			System.out.println(response);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		view.addObject("successMessage","Location send successfully");
+		JSONObject obj4 = null;
+		JSONObject obj5 = null;
+		 try {
+             //method of DistanceTime Class
+    	   String source = ride.getStartLocation();
+    	   String destination = ride.getEndLocation();
+           String response=distance.calculate(source,destination);
+           JSONParser parser = new JSONParser();
+           try {
+
+           Object obj = parser.parse(response);
+           JSONObject jsonobj=(JSONObject)obj;
+
+           JSONArray dist=(JSONArray)jsonobj.get("rows");
+           JSONObject obj2 = (JSONObject)dist.get(0);
+           JSONArray disting=(JSONArray)obj2.get("elements");
+           JSONObject obj3 = (JSONObject)disting.get(0);
+           obj4=(JSONObject)obj3.get("distance");
+           obj5=(JSONObject)obj3.get("duration");
+           System.out.println(obj4.get("text"));
+           System.out.println(obj5.get("text"));
+       }
+   catch(Exception e) {
+       e.printStackTrace();
+   	}
+       }
+
+       catch(Exception e) {
+           System.out.println("Exception Occurred");
+       }
+		 
+		 view.addObject("distance",obj4.get("text"));
+         view.addObject("timeToTravel", obj5.get("text"));
+ 		 view.addObject("successMessage","Location send successfully");
+//		System.out.println(ride.getStartLocation());
+		
 		return view;
 	}
 	
