@@ -13,6 +13,13 @@
 <h3>Login Successfully</h3>
 
 
+<form th:action="@{/ride}" method="get">
+        <button class="btn btn-md btn-danger btn-block"
+                type="Submit">Want to Book A Ride? Click Here
+        </button>
+</form>
+
+
 <form th:action="@{/logout}" method="get">
         <button class="btn btn-md btn-danger btn-block" name="registration"
                 type="Submit">Logout

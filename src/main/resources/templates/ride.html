@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Booking Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h1 class = "heading"> Welcome to Automated Transportation System. Your Journey Our Responsibility.</h1>
+<br>
+<h3>Booking Page</h3>
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form action="#" th:action="@{/ride}"
+                  th:object="${ride}" method="post" class="form-horizontal"
+                  role="form">
+                <h2>Welcome To Your Application! Enter Your Start And Drop Location</h2>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{startLocation}" placeholder="Start Location"
+                               class="form-control"/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{endLocation}" placeholder="End Location"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <button type="submit" class="btn btn-primary btn-block">Confirm Your Location</button>
+                    </div>
+                </div>
+
+                <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<br>
+<form th:action="@{/logout}" method="get">
+        <button class="btn btn-md btn-danger btn-block" name="registration"
+                type="Submit">Logout
+        </button>
+</form>
+    
+</body>
+</html>

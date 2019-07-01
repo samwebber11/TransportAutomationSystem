@@ -1,7 +1,11 @@
 package org.sambhav.transport.controllers;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
+import org.sambhav.transport.customs.Distance;
+import org.sambhav.transport.models.Rides;
 import org.sambhav.transport.models.User;
 import org.sambhav.transport.services.SecurityService;
 import org.sambhav.transport.services.UserService;
@@ -20,6 +24,54 @@ public class UserController {
 	
 	@Autowired
 	private SecurityService securityService;
+	
+	private Distance distance;
+	
+	@Autowired
+	public void setDistance(Distance distance)
+	{
+		this.distance = distance;
+	}
+	
+//	 @GetMapping("/")
+//	   public ModelAndView Api(String source,String destination) {
+//	           try {
+//	                 //method of DistanceTime Class
+//	        	   source = "Jalandhar";
+//	        	   destination = "New Delhi";
+//	               String response=distance.calculate(source,destination);
+//	               JSONParser parser = new JSONParser();
+//	               try {
+//
+//	                Object obj = parser.parse(response);
+//	                JSONObject jsonobj=(JSONObject)obj;
+//
+//	                JSONArray dist=(JSONArray)jsonobj.get("rows");
+//	                JSONObject obj2 = (JSONObject)dist.get(0);
+//	                JSONArray disting=(JSONArray)obj2.get("elements");
+//	                JSONObject obj3 = (JSONObject)disting.get(0);
+//	                JSONObject obj4=(JSONObject)obj3.get("distance");
+//	                JSONObject obj5=(JSONObject)obj3.get("duration");
+//	                System.out.println(obj4.get("text"));
+//	                System.out.println(obj5.get("text"));
+//
+//	           }
+//	       catch(Exception e) {
+//	           e.printStackTrace();
+//	       }
+//
+//	           System.out.println(response);
+//	           }
+//
+//	           catch(Exception e) {
+//	               System.out.println("Exception Occurred");
+//	           }
+//	           
+//	           
+//
+//	           return new ModelAndView("home");
+//
+//	       }  
 	
 	@GetMapping("/")
 	public ModelAndView welcome()
@@ -79,6 +131,16 @@ public class UserController {
 		return view;
 	}
 	
+	@GetMapping("/ride")
+	public ModelAndView takeARide()
+	{
+		ModelAndView view = new ModelAndView();
+		Rides ride = new Rides();
+		view.addObject(ride);
+		view.setViewName("ride");
+		return view;
+	}
+	
 	@GetMapping("/homepage")
 	public ModelAndView homepage()
 	{
@@ -108,5 +170,33 @@ public class UserController {
 
 	        }
 	        return modelAndView;
+	}
+
+	@PostMapping("/ride")
+	public ModelAndView checkDistance(Rides ride)
+	{
+		ModelAndView view = new ModelAndView();
+		String source = ride.getStartLocation();
+		String destination = ride.getEndLocation();
+		try {
+			String response = distance.calculate(source, destination);
+			System.out.println(response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		view.addObject("successMessage","Location send successfully");
+		return view;
+	}
+	
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Page After Confirming a location
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
+	@GetMapping("/getter")
+	public ModelAndView getRide()
+	{
+		ModelAndView view = new ModelAndView();
+		view.setViewName("getter");
+		return view;
 	}
 }
