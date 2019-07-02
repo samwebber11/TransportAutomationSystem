@@ -1,11 +1,12 @@
 package org.sambhav.transport.controllers;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.sambhav.transport.customs.DateValidator;
 import org.sambhav.transport.customs.Distance;
+import org.sambhav.transport.customs.Payment;
 import org.sambhav.transport.models.Rides;
 import org.sambhav.transport.models.User;
 import org.sambhav.transport.services.SecurityService;
@@ -28,11 +29,31 @@ public class UserController {
 	
 	private Distance distance;
 	
+	private Payment payment;
+	
+	private DateValidator dateValidator;
+	
+	@Autowired
+	private void setDateValidator(DateValidator date)
+	{
+		this.dateValidator = date;
+	}
+	
+	@Autowired
+	private void setPayment(Payment payment)
+	{
+		this.payment = payment;
+	}
+	
 	@Autowired
 	public void setDistance(Distance distance)
 	{
 		this.distance = distance;
 	}
+	
+//	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Get Method for ride 
+//	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 	@GetMapping("/ride")
 	public ModelAndView takeARide()
@@ -44,6 +65,10 @@ public class UserController {
 		return view;
 	}
 	
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Get method for page rendering on start of application
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
 	@GetMapping("/")
 	public ModelAndView welcome()
 	{
@@ -51,6 +76,10 @@ public class UserController {
 		view.setViewName("welcome");
 		return view;
 	}
+	
+//	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Get Method for login
+//	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 	@GetMapping("/login")
 	public ModelAndView login()
@@ -67,6 +96,10 @@ public class UserController {
 		return view;
 	}
 	
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Get Method for registration
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
 	@GetMapping("/registration")
 	public ModelAndView registration()
 	{
@@ -77,6 +110,10 @@ public class UserController {
 		return view;
 	}
 	
+//	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Get Method for Booking(Page After Successful Login)
+//	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
 	@GetMapping("/booking")
 	public ModelAndView booking()
 	{
@@ -84,6 +121,10 @@ public class UserController {
 		view.setViewName("booking");
 		return view;
 	}
+	
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Get Method for Any Page on Rendering URL not present in application
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 	@GetMapping("/*")
 	public ModelAndView anyPage()
@@ -101,7 +142,9 @@ public class UserController {
 		return view;
 	}
 	
-	
+//	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Get Method for Homepage
+//	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 	@GetMapping("/homepage")
 	public ModelAndView homepage()
@@ -110,6 +153,10 @@ public class UserController {
 		view.setViewName("homepage");
 		return view;
 	}
+	
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	Post Method for Registration
+//	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 	@PostMapping("/registration")
 	public ModelAndView saveUser(@Valid User user,BindingResult bindingResult)
@@ -133,6 +180,7 @@ public class UserController {
 	        }
 	        return modelAndView;
 	}
+	
 
 //	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //	Post Method For a Ride
@@ -142,44 +190,70 @@ public class UserController {
 	public ModelAndView checkDistance(Rides ride)
 	{
 		ModelAndView view = new ModelAndView();
-		JSONObject obj4 = null;
-		JSONObject obj5 = null;
-		 try {
-             //method of DistanceTime Class
-    	   String source = ride.getStartLocation();
-    	   String destination = ride.getEndLocation();
-           String response=distance.calculate(source,destination);
-           JSONParser parser = new JSONParser();
-           try {
-
-           Object obj = parser.parse(response);
-           JSONObject jsonobj=(JSONObject)obj;
-
-           JSONArray dist=(JSONArray)jsonobj.get("rows");
-           JSONObject obj2 = (JSONObject)dist.get(0);
-           JSONArray disting=(JSONArray)obj2.get("elements");
-           JSONObject obj3 = (JSONObject)disting.get(0);
-           obj4=(JSONObject)obj3.get("distance");
-           obj5=(JSONObject)obj3.get("duration");
-           System.out.println(obj4.get("text"));
-           System.out.println(obj5.get("text"));
-       }
-   catch(Exception e) {
-       e.printStackTrace();
-   	}
-       }
-
-       catch(Exception e) {
-           System.out.println("Exception Occurred");
-       }
+//		JSONObject obj4 = null;
+//		JSONObject obj5 = null;
+//		 try {
+//             //method of DistanceTime Class
+//    	   String source = ride.getStartLocation();
+//    	   String destination = ride.getEndLocation();
+//           String response=distance.calculate(source,destination);
+//           JSONParser parser = new JSONParser();
+//           try {
+//
+//           Object obj = parser.parse(response);
+//           JSONObject jsonobj=(JSONObject)obj;
+//
+//           JSONArray dist=(JSONArray)jsonobj.get("rows");
+//           JSONObject obj2 = (JSONObject)dist.get(0);
+//           JSONArray disting=(JSONArray)obj2.get("elements");
+//           JSONObject obj3 = (JSONObject)disting.get(0);
+//           obj4=(JSONObject)obj3.get("distance");
+//           obj5=(JSONObject)obj3.get("duration");
+//           System.out.println(obj4.get("text"));
+//           System.out.println(obj5.get("text"));
+//       }
+//   catch(Exception e) {
+//       e.printStackTrace();
+//   	}
+//       }
+//
+//       catch(Exception e) {
+//           System.out.println("Exception Occurred");
+//       }
 		 
-		 view.addObject("distance",obj4.get("text"));
-         view.addObject("timeToTravel", obj5.get("text"));
+		 String source = ride.getStartLocation();
+		 String destination = ride.getEndLocation();
+		 String startDate = ride.getStarting();
+		 
+		 if(!dateValidator.validateDate(startDate))
+		 {
+			 view.addObject("errorMessage","*Date is in invalid format");
+			 return view;
+		 }
+//		 Only for testing In Real Application this will come from map api...
+		 
+		 String distance = "386.5km";
+		 Double hrsTaken = payment.hrsTaken(distance);
+		 Double totalPrice = payment.calculatePrice(distance);
+		 
+		 Date startTime = dateValidator.calculateStartTime(startDate);
+		 
+//		 startTime will be current time plus the minimum time required by the driver to reach that starting point.
+//		 if that time will be less than the scheduled starting time then startTime will be time calculated above.
+		 System.out.println(startTime);
+		 
+		 Date endTime = dateValidator.calculateEndTime(startTime,hrsTaken);
+		 view.addObject("hrsTaken","Total Time to travel: "+hrsTaken);
+		 view.addObject("price","You will be charged: "+ totalPrice);
+		 view.addObject("distance",source);
+         view.addObject("timeToTravel", destination);
  		 view.addObject("successMessage","Location send successfully");
-//		System.out.println(ride.getStartLocation());
+ 		 view.addObject("startTime","Starting Time: "+startTime);
+ 		 view.addObject("endTime","Ending Time: "+endTime);
 		
 		return view;
 	}
+	
 	
 //	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //	Page After Confirming a location

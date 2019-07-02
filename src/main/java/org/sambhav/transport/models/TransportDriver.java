@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @Table(name = "driver")
 public class TransportDriver implements Serializable{
@@ -66,6 +68,10 @@ public class TransportDriver implements Serializable{
 	@Size(min = 10,max = 10)
 	private String mobileNumber;
 	
+	@Column(name = "password")
+	@Length(min = 4,message = "*Your Password must be between 4 and 10 characters")
+	private String password;
+	
 	@ManyToMany
 	@JoinTable(name = "role_driver_matching", joinColumns = @JoinColumn(name = "driver_id",referencedColumnName = "driver_id"), inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "role_id"))
 	private Set<Role> roles;
@@ -77,7 +83,7 @@ public class TransportDriver implements Serializable{
 	public TransportDriver(@Size(max = 10) @NotNull String firstName, @Size(max = 10) @NotNull String lastName,
 			@Size(max = 15) @NotNull String userName, @Size(min = 10, max = 10) @NotNull String vehicalNo,
 			Boolean isAvailable, Boolean isBooked, @Size(max = 50) String startingLocation,
-			@Size(max = 50) String endingLocation, @Size(min = 10, max = 10) String mobileNumber,
+			@Size(max = 50) String endingLocation, @Size(min = 10, max = 10) String mobileNumber,@Length(min=4,message="*Your Password must be between 4 ans 10 characters")String password,
 			Set<Role> role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
