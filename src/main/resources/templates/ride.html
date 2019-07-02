@@ -37,17 +37,33 @@
                 	</div>
                 </div>
                 <br><br>
+                
+                <div class="form-group">
+                	<div class="col-sm-9">
+                		<input class="form-control mr-sm-2" 
+                			   type="text"  id="starting"
+                			   name="starting" value=""  
+                			   placeholder="HH:MM in 24:60" />	
+                	</div>
+                </div>
+                <br><br>
       		    <button class="btn btn-success" type="Submit" value="Submit">Confirm The Location</button>
       		    
-      		    
+      		    <h6><span class="date" th:utext="${errorMessage}"></span></h6>
       		    <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
-      		    <h2><span class="text-success" th:utext="${distance}"></span></h2>
-      		    <h2><span class="text-success" th:utext="${timeToTravel}"></span></h2>
-      		    
-      		    
+      		    <h2><span class="heading" th:utext="${distance}"></span></h2>
+      		    <h2><span class="heading" th:utext="${timeToTravel}"></span></h2>
+      		    <h2><span class="heading" th:utext="${hrsTaken}"></span></h2>
+      		    <h2><span class="heading" th:utext="${price}"></span></h2> 
+      		    <h2><span class="heading" th:utext="${startTime}"></span></h2>  
+      		    <h2><span class="heading" th:utext="${endTime}"></span></h2>      		    
             </form> 
-			
-<br>
+            
+            <br><br>
+            <form th:action="@{/getter}" method = "get">
+      		    	<button class="btn btn-success" type="Submit" value="Submit">Do You Confirm the Ride?</button>
+      		</form>
+<br><br>
 <form th:action="@{/logout}" method="get">
         <button class="btn btn-md btn-danger btn-block" name="registration"
                 type="Submit">Logout

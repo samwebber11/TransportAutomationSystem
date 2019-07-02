@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -39,8 +40,7 @@ public class Rides implements Serializable{
 	
 	@Column(name = "end_time")
 	private Date endTime;
-	
-	
+
 	@Column(name = "start_trip")
 	private String startLocation;
 	
@@ -50,9 +50,17 @@ public class Rides implements Serializable{
 	@Column(name="total_charge")
 	private Double payment;
 	
+	@Transient
+	@Column(name = "starting")
+	private String starting;
+	
+	@Transient
+	@Column(name = "ending")
+	private String ending;
+	
 
 	public Rides(@NotNull Integer id, User user, TransportDriver driver, Date startTime, Date endTime,
-			@NotNull(message = "*Your location is not valid") String startLocation, String endLocation,Double payment) {
+			@NotNull(message = "*Your location is not valid") String startLocation, String endLocation,Double payment,String starting ,String ending) {
 		this.id = id;
 		this.user = user;
 		this.payment = payment;
@@ -61,6 +69,8 @@ public class Rides implements Serializable{
 		this.endTime = endTime;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
+		this.starting = starting;
+		this.ending = ending;
 	}
 
 	public Rides()
@@ -132,4 +142,22 @@ public class Rides implements Serializable{
 	{
 		this.payment = payment;
 	}
+
+	public String getStarting() {
+		return starting;
+	}
+
+	public void setStarting(String starting) {
+		this.starting = starting;
+	}
+
+	public String getEnding() {
+		return ending;
+	}
+
+	public void setEnding(String ending) {
+		this.ending = ending;
+	}
+	
+	
 }
